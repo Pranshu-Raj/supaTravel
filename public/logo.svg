@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="40" fill="none" viewBox="0 0 82 40">
+  <!-- Yellow Circle -->
+  <circle cx="73.365" cy="19.71" r="17" fill="#FFD43D"/>
+  <!-- Pink Circle -->
+  <circle cx="43.494" cy="19.544" r="17" fill="#FF0C81"/>
+  <!-- Blue Circle -->
+  <circle cx="20.074" cy="19.71" r="17" fill="#11EEFC"/>
+  <!-- Black text "supaTrip" -->
+  <text x="5" y="25" fill="#171A26" font-family="Arial" font-size="24" font-weight="bold">supaTrip</text>
+</svg>

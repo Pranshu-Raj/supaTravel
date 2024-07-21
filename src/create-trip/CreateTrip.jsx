@@ -1,12 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
-import { SelectBugetOptions, SelectTravelesList } from "@/constants/Options";
+import {
+  AI_PROMPT,
+  SelectBugetOptions,
+  SelectTravelesList,
+} from "@/constants/Options";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { apiKey, chatSession, genAI } from "@/service/AiModel";
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogDescription,
+//   DialogHeader,
+//   DialogTitle,
+//   DialogTrigger,
+// } from "@/components/ui/dialog";
 
 function CreateTrip() {
   const [place, setPlace] = useState();
   const [formData, setFormData] = useState([]);
+  // const [openDailog, setOpenDailog] = useState(false);
   const handleInputChange = (name, value) => {
     setFormData({
       ...formData,
@@ -18,11 +33,31 @@ function CreateTrip() {
     console.log(formData);
   }, [formData]);
 
-  const onGenerateTrip = () => {
-    if (formData?.noOfDays > 10) {
+  const onGenerateTrip = async () => {
+
+    if (
+      (formData?.noOfDays > 10 && !formData?.location) ||
+      !formData?.budget ||
+      !formData?.traveller
+    ) {
+      toast("Please fill the complete form.");
+
       return;
     }
-    console.log(formData)
+    const FINAL_PROMPT = AI_PROMPT.replace(
+      "{location}",
+      formData?.location?.label
+    )
+      .replace("{totalDays}", formData?.noOfDays)
+      .replace("{traveler}", formData?.traveller)
+      .replace("{budget}", formData?.budget)
+      .replace("{totalDays}", formData?.noOfDays);
+
+    console.log(FINAL_PROMPT);
+    console.log(apiKey);
+    console.log(genAI);
+    const result = await chatSession.sendMessage(FINAL_PROMPT);
+    console.log(result?.response?.text());
   };
 
   return (
@@ -107,6 +142,8 @@ function CreateTrip() {
         <div className=" my-10 justify-end flex">
           <Button onClick={onGenerateTrip}>Generate Trip</Button>
         </div>
+
+        
       </div>
     </>
   );
